@@ -1,5 +1,9 @@
 # My Chess Assistant
 
+> [!WARNING]
+> **Fair Play & Account Safety Warning:**  
+> Using this tool or any chess engine assistance against real players violates platform Fair Play rules and may result in your account being banned. This tool is strictly intended for educational practice against bots (`chess.com/play/computer`). To protect your account, it is recommended to use it only against the computer or in an **Incognito / Private Window** without signing into your main account.
+
 A modern, lightweight, and versatile browser extension that provides real-time Stockfish engine evaluation and best-move visual arrows directly on Chess.com (Play vs Computer)—featuring embedded WebAssembly (NNUE 16), dynamic SVG arrow overlays, configurable MultiPV depth, and a floating draggable assistant panel.
 
 Compatible with all major browsers: **Chrome, Brave, Edge, Opera, Vivaldi (Chromium-based)** and **Mozilla Firefox**.
