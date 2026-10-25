@@ -1,114 +1,135 @@
 # My Chess Assistant
 
-A lightweight, powerful, and privacy-focused browser extension that provides real-time Stockfish engine evaluation and best-move visual arrows directly on Chess.com (Play vs Computer)—powered by WebAssembly (NNUE 16), dynamic SVG overlays, and a floating draggable assistant panel.
+A modern, lightweight, and versatile browser extension that provides real-time Stockfish engine evaluation and best-move visual arrows directly on Chess.com (Play vs Computer)—featuring embedded WebAssembly (NNUE 16), dynamic SVG arrow overlays, configurable MultiPV depth, and a floating draggable assistant panel.
 
-Compatible with all major modern browsers: **Google Chrome, Brave, Microsoft Edge, Opera, Vivaldi (Chromium-based)** and **Mozilla Firefox**.
+Compatible with all major browsers: **Chrome, Brave, Edge, Opera, Vivaldi (Chromium-based)** and **Mozilla Firefox**.
 
----
+
 
 ### <a name="Features"></a> ⭐ Features
 
 - **Embedded Stockfish 16 Engine (NNUE):** Runs the Stockfish chess engine directly inside your browser using WebAssembly (WASM) with single-threaded NNUE support for fast, local position analysis without external servers.
-- **Dynamic Visual Move Arrows:** Automatically computes and displays colorful SVG arrows directly over the chessboard representing the top recommended moves (ranked and color-coded).
-- **Floating Draggable Assistant Panel:**
-  - Displays side to move, engine search depth, win chance probability percentage, and evaluation scores (centipawns or mate counts).
-  - Freely draggable anywhere on the screen with position memory saved in local storage.
-  - Quick settings toggle to adjust the number of evaluated lines (**MultiPV** from 1 to 5).
+- **Dynamic Visual Move Arrows:** Automatically computes and displays colorful SVG arrows directly over the chessboard representing the top recommended moves with rank-based opacity and color grading.
+- **Floating Draggable Assistant Panel:** Real-time HUD showing side to move, engine depth, win probability percentage, and centipawn/mate score evaluation—freely movable across the screen with persistent coordinates.
+- **Customizable Multi-Line Analysis (MultiPV):** On-the-fly lines selector allowing you to toggle between 1 to 5 candidate move lines directly from the panel settings.
 - **Dual Position Reading Engine:**
   - **Move List Reconstruction (Primary):** Rebuilds positions using `chess.js` from the move list to guarantee 100% accuracy for castling rights, en passant, and turn order.
-  - **Piece Placement Fallback:** Automatically scans the board piece coordinates if the move list is inaccessible.
-- **Board Orientation Aware:** Automatically detects if the board is flipped (playing as Black) and mirrors arrow coordinates seamlessly.
-- **Strict Scope & Fair Play:** Scoped strictly to `https://www.chess.com/play/computer*` to prevent any unintended activation on live multiplayer or rated matches.
-- **100% Offline & Private:** Operates entirely client-side in browser memory with zero tracking, telemetry, or external network requests.
+  - **Piece Placement Fallback:** Automatically scans board piece coordinates if the move list is inaccessible or during custom setup.
+- **Board Orientation Awareness:** Automatically detects board flipping (White or Black perspective) and dynamically mirrors arrow coordinate calculations.
+- **Strict Scope & Fair Play Compliance:** Explicitly restricted to `https://www.chess.com/play/computer*` to ensure fair play compliance and avoid running on live multiplayer games.
+- **100% Local & Zero External Dependencies:** Operates completely client-side in browser memory with zero tracking, telemetry, or server communication.
 
----
+
 
 ### <a name="RepositoryStructure"></a> 📁 Repository Structure
 
 ```text
-├── Chromium/          # Extension directory for Chrome, Brave, Edge, Opera, Vivaldi
-│   ├── icons/         # Extension icon (128px)
+
+├── chromium/          # Extension build directory for Chrome, Brave, Edge, Opera, Vivaldi, etc.
+│   ├── icons/         # Extension toolbar and store icon (128px)
 │   ├── lib/           # Chess.js library, Stockfish NNUE (JS & WASM) & license
-│   ├── background.js  # Service worker managing the Offscreen document lifecycle
-│   ├── content_script.js # Board reader, SVG arrows overlay, and draggable panel
+│   ├── background.js  # Service worker handling offscreen document lifecycle
+│   ├── content_script.js # Board scanner, SVG overlay, and floating panel UI
 │   ├── manifest.json  # Chromium Manifest V3 configuration
 │   ├── offscreen.html # Offscreen document container for WebAssembly execution
 │   └── offscreen.js   # Offscreen worker bridge running Stockfish
 │
-├── Firefox/           # Extension directory for Mozilla Firefox
-│   ├── icons/         # Extension icon (128px)
+├── firefox/           # Extension build directory for Mozilla Firefox
+│   ├── icons/         # Extension toolbar and store icon (128px)
 │   ├── lib/           # Chess.js library, Stockfish NNUE (JS & WASM) & license
 │   ├── background.js  # Background script running Stockfish Web Worker directly
-│   ├── content_script.js # Board reader, SVG arrows overlay, and draggable panel
+│   ├── content_script.js # Board scanner, SVG overlay, and floating panel UI
 │   └── manifest.json  # Firefox Manifest V3 configuration (with Gecko ID)
 │
-├── PRIVACY_POLICY.md  # Detailed privacy policy (English & Arabic)
+├── .gitignore         # Prevents tracking of OS metadata, archives, and temporary files
+├── LICENSE            # Apache License 2.0
+├── PRIVACY_POLICY.md  # Privacy policy and local data handling guidelines
 ├── README.md          # Project documentation and setup guide
 └── SECURITY.md        # Security policy and vulnerability disclosure guide
+
 ```
 
----
+
 
 ### <a name="InstallationUsage"></a> ⚙️ Installation & Usage
 
-#### <a name="ForChromiumBasedBrowsers"></a> 🌐 For Chromium-Based Browsers (Chrome, Brave, Edge, Opera)
+### <a name="ForChromiumBasedBrowsers"></a> 🌐 For Chromium-Based Browsers (Chrome, Brave, Edge, Opera)
 
 1. Open your Chromium-based browser and navigate to:
    - **Google Chrome / Brave / Opera:** `chrome://extensions/`
    - **Microsoft Edge:** `edge://extensions/`
-2. Enable **Developer mode** (toggle in the top-right corner).
-3. Click **Load unpacked**.
-4. Select the `Chromium` directory:
-   ```text
-   Chromium/
-   ├── icons/
-   ├── lib/
-   ├── background.js
-   ├── content_script.js
-   ├── manifest.json
-   ├── offscreen.html
-   └── offscreen.js
-   ```
-5. The extension is now installed and active.
 
-#### <a name="ForMozillaFirefox"></a> 🦊 For Mozilla Firefox
+2. Enable **Developer mode** (toggle located in the top-right corner).
+
+3. Click **Load unpacked**.
+
+4. Select the `chromium` directory:
+
+```text
+chromium/
+├── icons/
+│   └── icon128.png
+├── lib/
+│   ├── STOCKFISH-LICENSE.txt
+│   ├── chess.min.js
+│   ├── stockfish-nnue-16-single.js
+│   └── stockfish-nnue-16-single.wasm
+├── background.js
+├── content_script.js
+├── manifest.json
+├── offscreen.html
+└── offscreen.js
+```
+
+5. The extension will be installed and ready to use in your browser toolbar.
+
+### <a name="ForMozillaFirefox"></a> 🦊 For Mozilla Firefox
 
 1. Open **Mozilla Firefox** and navigate to `about:debugging#/runtime/this-firefox`.
 2. Click **Load Temporary Add-on...**.
-3. Select the `manifest.json` file inside the `Firefox` folder:
-   ```text
-   Firefox/
-   └── manifest.json
-   ```
-4. The extension is now loaded and ready for use.
+3. Select the `manifest.json` file inside the `firefox` folder:
 
----
+```text
+firefox/
+└── manifest.json
+```
 
-### <a name="HowToUse"></a> ♟️ How to Use
+4. The extension is now loaded as a temporary add-on.
+
+> [!NOTE]
+> For permanent installation in Firefox, the extension can be packaged and signed through [addons.mozilla.org](https://addons.mozilla.org) (e.g. submitted as a self-distributed/unlisted add-on to generate a signed `.xpi`).
+
+
+
+### <a name="HowToUse"></a> 🖱️ How to Use
 
 1. Navigate to: `https://www.chess.com/play/computer`
 2. Choose any bot or computer personality and start a game.
-3. The **My Chess Assistant** floating panel will automatically appear on the page.
-4. As you make moves, Stockfish analyzes the position instantly in the background:
-   - Colored arrows will point out the top candidate moves on the board.
-   - The panel displays the win probability and score evaluation for each line.
-5. Click the gear icon (`⚙`) on the panel to change the number of analyzed lines (1 to 5).
-6. Drag the panel header to position it anywhere you prefer.
+3. The **My Chess Assistant** floating panel will automatically appear on the page next to the board.
+4. As moves are played, Stockfish analyzes the position instantly in the background:
+   - Colored visual arrows are drawn directly over the board showing the top candidate moves.
+   - The floating HUD shows win chance percentages and evaluation scores for each move line.
+5. Click the gear icon (`⚙`) on the floating panel to customize the number of analyzed lines (1 to 5).
+6. Drag the panel header to freely position it anywhere on your screen.
 
----
 
-### <a name="PrivacySafety"></a> 🛡️ Privacy & Safety
 
-- **Local Execution:** All chess computations and WebAssembly instances run locally on your machine.
-- **Fair Play Compliant:** The extension is restricted solely to the `/play/computer*` URL to prevent interference with competitive, rated human games.
-- **Zero Data Collection:** No user data, game states, or browsing activities are tracked, stored on remote servers, or transmitted.
+### <a name="Privacy & Safety"></a> 🛡️ Privacy & Safety
 
----
+- **Local Processing:** All chess computations and WebAssembly instances run locally in your browser memory. No board data, FEN strings, or game moves are ever transmitted to external servers.
+- **Fair Play & Restricted Scope:** Strictly limited to `https://www.chess.com/play/computer*` to prevent any interference or activation on live multiplayer rated matches.
 
-### <a name="Copyright2026"></a> Copyright © 2026
 
-For inquiries, support, or collaboration, please contact:  
+
+> [!WARNING]
+> Stockfish evaluation is CPU-intensive. While NNUE single-threaded execution is optimized for web performance, running high search depths on battery-powered or resource-constrained devices may increase CPU usage.
+
+
+
+### <a name="Copyright©2026"></a> Copyright © 2026
+
+Thank you for engaging with us. For inquiries or collaboration, please contact:  
 hamzabellouchcontact@gmail.com
 
-Stay connected and follow on:  
+Stay connected and follow us on:  
 [WhatsApp](https://whatsapp.com/channel/0029Vb7MArw0LKZMpjjqOk2P) | [Facebook](https://facebook.com/hamzabellouch1) | [Instagram](https://instagram.com/hamzabellouch0) | [Twitter](https://twitter.com/hamzabellouch0) | [Telegram](https://t.me/hammzabellouch) | [LinkedIn](https://www.linkedin.com/in/hamzabellouch)
