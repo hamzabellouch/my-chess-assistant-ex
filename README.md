@@ -6,6 +6,8 @@
 
 A modern, lightweight, and versatile browser extension that provides real-time Stockfish engine evaluation and best-move visual arrows directly on Chess.com (Play vs Computer)—featuring embedded WebAssembly (NNUE 16), dynamic SVG arrow overlays, configurable MultiPV depth, and a floating draggable assistant panel.
 
+<img width="2752" height="1536" alt="my-chess-assistant" src="https://github.com/user-attachments/assets/ece7205f-36e7-46ef-91eb-9370b9eab516" />
+
 Compatible with all major browsers: **Chrome, Brave, Edge, Opera, Vivaldi (Chromium-based)** and **Mozilla Firefox**.
 
 
