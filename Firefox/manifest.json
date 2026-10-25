@@ -1,0 +1,49 @@
+{
+  "manifest_version": 3,
+  "name": "My Chess Assistant",
+  "version": "1.0.0",
+  "description": "Stockfish analysis arrows for chess.com Play vs Computer only.",
+  "permissions": [
+    "storage"
+  ],
+  "background": {
+    "scripts": ["background.js"]
+  },
+  "content_scripts": [
+    {
+      "matches": [
+        "https://www.chess.com/play/computer*",
+        "https://chess.com/play/computer*"
+      ],
+      "js": [
+        "lib/chess.min.js",
+        "content_script.js"
+      ],
+      "run_at": "document_idle"
+    }
+  ],
+  "web_accessible_resources": [
+    {
+      "resources": [
+        "lib/stockfish-nnue-16-single.js",
+        "lib/stockfish-nnue-16-single.wasm"
+      ],
+      "matches": [
+        "https://www.chess.com/*",
+        "https://chess.com/*"
+      ]
+    }
+  ],
+  "content_security_policy": {
+    "extension_pages": "script-src 'self' 'wasm-unsafe-eval'; object-src 'self'"
+  },
+  "icons": {
+    "128": "icons/icon128.png"
+  },
+  "browser_specific_settings": {
+    "gecko": {
+      "id": "my-chess-assistant@tkno",
+      "strict_min_version": "109.0"
+    }
+  }
+}
