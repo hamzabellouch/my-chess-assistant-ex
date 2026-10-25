@@ -1,6 +1,6 @@
 # My Chess Assistant
 
-> [!WARNING]
+> [!CAUTION]
 > **Fair Play & Account Safety Warning:**  
 > Using this tool or any chess engine assistance against real players violates platform Fair Play rules and may result in your account being banned. This tool is strictly intended for educational practice against bots (`chess.com/play/computer`). To protect your account, it is recommended to use it only against the computer or in an **Incognito / Private Window** without signing into your main account.
 
